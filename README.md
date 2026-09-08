@@ -1,12 +1,20 @@
 # steganography-api
 
-## Instalações
+
+## Instalações e rodar projeto
 
 Instalações necessárias para rodar a aplicação:
 
-`pip install pillow python-multipart fastapi uvicorn`
+criar ambiente com `py -m venv .venv`
 
-## Explicando o comando `uvicorn main:app --reload ` para rodar o projeto
+ativar o ambiente com `.\.venv\Scripts\Activate.ps1`
+
+se der erro rodar `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass .\.venv\Scripts\Activate.ps1`
+
+instalar dependências com `python -m pip install fastapi uvicorn python-multipart pillow reportlab`
+
+
+## Explicando o comando `uvicorn main:app --reload` para rodar o projeto
 
 ### `uvicorn`
 
