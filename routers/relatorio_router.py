@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
-from repositories.analise_repository import analises
+from repositories.analise_repository import analise_repository
 
 from services.relatorio_service import gerar_relatorio_txt
 from services.relatorio_service import gerar_relatorio_pdf
@@ -11,7 +11,7 @@ router = APIRouter(tags=["Relatórios"])
 @router.get("/relatorio/{id_analise}/{formato}")
 def relatorio_pdf(id_analise: str, formato: str):
 
-    analise = analises.get(id_analise)
+    analise = analise_repository.buscar(id_analise)
 
     if analise is None:
         raise HTTPException(404, "Análise não encontrada")

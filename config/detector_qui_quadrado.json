@@ -1,0 +1,42 @@
+{
+    "metodo": "detector_qui_quadrado_dct_qim",
+    "feature": "chi2_25",
+    "limiar": 2012.7275776486226,
+    "direcao_stego": "menor",
+    "delta": 32,
+    "coeficientes_dct": [
+        [
+            2,
+            3
+        ],
+        [
+            3,
+            2
+        ],
+        [
+            3,
+            3
+        ],
+        [
+            2,
+            4
+        ]
+    ],
+    "metricas_teste": {
+        "acuracia": 0.9566666666666667,
+        "acuracia_balanceada": 0.9566666666666667,
+        "precisao": 0.9506578947368421,
+        "recall": 0.9633333333333334,
+        "f1": 0.956953642384106
+    },
+    "matriz_confusao_teste": [
+        [
+            285,
+            15
+        ],
+        [
+            11,
+            289
+        ]
+    ]
+}

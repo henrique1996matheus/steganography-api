@@ -11,8 +11,11 @@ ativar o ambiente com `.\.venv\Scripts\Activate.ps1`
 
 se der erro rodar `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass .\.venv\Scripts\Activate.ps1`
 
-instalar dependências com `python -m pip install fastapi uvicorn python-multipart pillow reportlab`
+instalar dependências com `python -m pip install fastapi uvicorn python-multipart pillow reportlab numpy scipy`
 
+criar requirements.txt com `python -m pip freeze > requirements.txt`
+
+instalar dependências com `python -m pip install -r requirements.txt`
 
 ## Explicando o comando `uvicorn main:app --reload` para rodar o projeto
 

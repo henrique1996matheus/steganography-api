@@ -1,51 +1,56 @@
 import asyncio
+import traceback
 
 from fastapi import UploadFile
+from models.arquivo_upload import ArquivoUpload
 
 from enums.status_analise import StatusAnalise
-from repositories.analise_repository import analises
+from repositories.analise_repository import analise_repository
+from services.esteganalise_service import analisar_imagem
 
-async def processar_imagens(
-    id_analise: str,
-    files: list[UploadFile]
-):
 
-    analise = analises[id_analise]
+async def processar_imagens(id_analise: str, arquivos_upload: list[ArquivoUpload]):
+    analise = analise_repository.buscar(id_analise)
+
+    if analise is None:
+        return
 
     try:
-
-        for index, file in enumerate(files):
+        for index, arquivo_upload in enumerate(arquivos_upload):
+            arquivo = analise.arquivos[index]
 
             try:
-                analise["arquivos"][index]["status"] = StatusAnalise.PROCESSANDO
+                arquivo.status = StatusAnalise.PROCESSANDO
 
-                print(
-                    f"{id_analise} - {file.filename}"
-                )
+                print(f"{id_analise} - {arquivo.nome}")
 
-                await asyncio.sleep(10)
+                resultado = await analisar_imagem(arquivo_upload)
 
-                analise["arquivos"][index]["status"] = StatusAnalise.CONCLUIDO
+                arquivo.resultado = resultado
+                arquivo.status = StatusAnalise.CONCLUIDO
 
             except Exception as e:
+                traceback.print_exc()  # imprime a stack completa no terminal
 
-                analise["arquivos"][index]["status"] = StatusAnalise.ERRO
-                analise["arquivos"][index]["erro"] = str(e)
+                arquivo.status = StatusAnalise.ERRO
+                arquivo.erro = str(e)
 
             finally:
-                analise["concluidas"] += 1
+                analise.concluidas += 1
 
         tem_erros = any(
-            arquivo["status"] == StatusAnalise.ERRO
-            for arquivo in analise["arquivos"]
+            arquivo.status == StatusAnalise.ERRO
+            for arquivo in analise.arquivos
         )
 
-        analise["status"] = (
+        analise.status = (
             StatusAnalise.ERRO
             if tem_erros
             else StatusAnalise.CONCLUIDO
         )
 
     except Exception as e:
-        analise["status"] = StatusAnalise.ERRO
-        analise["erro"] = str(e)
+        traceback.print_exc()  # imprime a stack completa no terminal
+
+        arquivo.status = StatusAnalise.ERRO
+        arquivo.erro = str(e)

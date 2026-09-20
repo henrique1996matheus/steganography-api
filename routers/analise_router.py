@@ -18,7 +18,6 @@ def listar():
 async def analisar(files: list[UploadFile] = File(...)):
     return await iniciar_analise(files)
 
-
 @router.get("/analisar/{id_analise}/progresso")
 def progresso(id_analise: str):
     return consultar_progresso(id_analise)
