@@ -62,7 +62,7 @@ def gerar_grafico_distribuicao(
         cover,
         bins=55,
         range=intervalo,
-        density=True,
+        density=False,
         alpha=0.5,
         color="royalblue",
         edgecolor="white",
@@ -74,7 +74,7 @@ def gerar_grafico_distribuicao(
         stego,
         bins=55,
         range=intervalo,
-        density=True,
+        density=False,
         alpha=0.5,
         color="crimson",
         edgecolor="white",
@@ -97,34 +97,10 @@ def gerar_grafico_distribuicao(
         label=f"Imagem: {valor_imagem:.2f}",
     )
 
-    texto = (
-        f"Arquivo: {nome_imagem}\n"
-        f"Característica: {feature}\n"
-        f"Qui-quadrado: {valor_imagem:.4f}\n"
-        f"Limiar: {limiar:.4f}\n"
-        f"Classificação: {classificacao}\n"
-        f"Mensagem recuperada: {'Sim' if mensagem_recuperada else 'Não'}"
-    )
-
-    ax.text(
-        0.98,
-        0.97,
-        texto,
-        transform=ax.transAxes,
-        ha="right",
-        va="top",
-        fontsize=9,
-        bbox=dict(
-            boxstyle="round",
-            facecolor="white",
-            alpha=0.9,
-        ),
-    )
-
     ax.set_xlim(minimo, maximo)
-    ax.set_xlabel("Qui-quadrado")
-    ax.set_ylabel("Densidade")
-    ax.set_title("Distribuição de COVER × STEGO")
+    ax.set_xlabel("Valor da estatística qui-quadrado")
+    ax.set_ylabel("Quantidade de imagens do conjunto de treinamento")
+    ax.set_title("Distribuição de imagens do conjunto de treinamento (COVER x STEGO)")
     ax.grid(axis="y", alpha=0.2, linestyle=":")
     ax.legend(fontsize=9)
 

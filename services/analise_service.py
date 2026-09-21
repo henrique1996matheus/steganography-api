@@ -11,6 +11,13 @@ from services.processamento_service import processar_imagens
 from models.analise import Analise
 from models.arquivo_analise import ArquivoAnalise
 from models.arquivo_upload import ArquivoUpload
+from pathlib import Path
+
+EXTENSOES_PERMITIDAS = {".jpg", ".jpeg"}
+CONTENT_TYPES_PERMITIDOS = {
+    "image/jpeg",
+    "image/jpg",
+}
 
 def listar_analises():
     return {
@@ -18,6 +25,27 @@ def listar_analises():
         "tamanho": analise_repository.quantidade(),
         "analises": analise_repository.listar()
     }
+
+def validar_arquivo(file: UploadFile):
+    extensao = Path(file.filename).suffix.lower()
+
+    if extensao not in EXTENSOES_PERMITIDAS:
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                f"Arquivo '{file.filename}' possui formato inválido. "
+                "Apenas imagens JPEG (.jpg e .jpeg) são permitidas."
+            ),
+        )
+
+    if file.content_type not in CONTENT_TYPES_PERMITIDOS:
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                f"Arquivo '{file.filename}' não é uma imagem JPEG válida "
+                f"(content-type: {file.content_type})."
+            ),
+        )
 
 async def iniciar_analise(files: list[UploadFile]):
 
@@ -40,6 +68,8 @@ async def iniciar_analise(files: list[UploadFile]):
     )
 
     for file in files:
+        # validar_arquivo(file)
+
         conteudo = await file.read()
 
         analise.arquivos.append(

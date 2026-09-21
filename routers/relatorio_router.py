@@ -24,17 +24,17 @@ def relatorio_pdf(id_analise: str, formato: str):
             txt,
             media_type="text/plain; charset=utf-8",
             headers={
-                "Content-Disposition": f"attachment; filename=relatorio-{id_analise}.txt"
+                "Content-Disposition": f'attachment; filename="relatorio-{id_analise}.txt"'
             }
         )
     
     elif formato == "pdf":
-        pdf = gerar_relatorio_pdf(id_analise, analise)
+        pdf = gerar_relatorio_pdf(analise)
 
         return StreamingResponse(
             pdf,
             media_type="application/pdf",
             headers={
-                "Content-Disposition": f"attachment; filename=relatorio-{id_analise}.pdf"
+                "Content-Disposition": f'attachment; filename="relatorio-{id_analise}.pdf"'
             }
         )
