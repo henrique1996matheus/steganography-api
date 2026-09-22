@@ -1,6 +1,5 @@
 import asyncio
 import uuid
-import sys
 
 from fastapi import HTTPException, UploadFile
 
