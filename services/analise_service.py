@@ -68,7 +68,7 @@ async def iniciar_analise(files: list[UploadFile]):
     )
 
     for file in files:
-        # validar_arquivo(file)
+        validar_arquivo(file)
 
         conteudo = await file.read()
 
